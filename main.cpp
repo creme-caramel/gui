@@ -1,9 +1,12 @@
 // main.cpp
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
 #include <iostream>
 #include <stdio.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <imgui.h>
+
 using namespace std;
 
 void error_callback(int err, const char *desc)
