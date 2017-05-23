@@ -1,12 +1,8 @@
-// main.cpp
-
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
 #include <iostream>
 #include <stdio.h>
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
 using namespace std;
 
 void error_callback(int err, const char *desc)
@@ -25,8 +21,8 @@ int main()
 	glfwSetErrorCallback(error_callback);
 
 	if (!glfwInit()) {
-		cout <<  "oops" << endl;
-		return 0;
+		cout <<  "can't initialize glfw" << endl;
+		return 1;
 	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
@@ -35,28 +31,35 @@ int main()
 	if (!w) {
 		cout << "Window or openGL context creation failed" << endl;
 		glfwTerminate();
-		return 0;
+		return 1;
 	}
-	cout << "Starting GLFW context, OpenGL2" << endl;
 	glfwMakeContextCurrent(w);
 	glfwSetKeyCallback(w, key_callback);
+	cout << "Starting GLFW context, OpenGL2" << endl;
 
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "failed to initialize glew\n");
-		glfwTerminate();
-		return 0;
+	ImGui_ImplGlfw_Init(w, true);
+	bool show_test_window = true;
+	bool show_another_window = false;
+	ImVec4 clear_color = ImColor(114, 144, 154);
+
+	while (!glfwWindowShouldClose(w))
+	{
+		glfwPollEvents();
+		ImGui_ImplGlfw_NewFrame();
+
+
+		// Rendering
+		int display_w, display_h;
+		glfwGetFramebufferSize(w, &display_w, &display_h);
+		glViewport(0, 0, display_w, display_h);
+		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+		glClear(GL_COLOR_BUFFER_BIT);
+		ImGui::Render();
+		glfwSwapBuffers(w);
 	}
 
-	glfwSetInputMode(w, GLFW_STICKY_KEYS, GL_TRUE);
-	glClearColor(0, 0, 0, 0);
-
-	do {
-		glClear(GL_COLOR_BUFFER_BIT);
-		glfwSwapBuffers(w);
-		glfwPollEvents();
-	} while (glfwGetKey(w, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(w) == 0);
-
 	// glfwDestroyWindow(w);
+	ImGui_ImplGlfw_Shutdown();
 	glfwTerminate();
 	return 0;
 }

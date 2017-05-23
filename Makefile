@@ -1,16 +1,16 @@
 CXX = g++
 FLAGS = -std=c++11
 CFLAGS = -g -Wall
-LIBS = -lGL -lGLEW -lglfw
+LIBS = -lGL -lglfw
 
 FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
 CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
 GUI = $(CURDIR)/imgui
 INC = -I$(GUI)
 
-BIN = main
+BIN = pipeline
 
-OBJ = main.o \
+OBJ = pipeline.o \
       $(GUI)/imgui_impl_glfw.o \
       $(GUI)/imgui_draw.o \
       $(GUI)/imgui.o
@@ -24,7 +24,7 @@ $(BIN): $(OBJ)
 	$(CXX) $(FLAGS) $(CFLAGS) $(INC) -c -o $@ $<
 
 test: $(BIN)
-	./$(BIN)
+	@./$(BIN)
 
 clean:
 	rm $(OBJ) $(BIN)
