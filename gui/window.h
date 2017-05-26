@@ -6,10 +6,10 @@
 
 typedef GLFWwindow Window;
  
-void error_callback(int err, const char *desc);
-void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
-GLFWwindow * init_window(int width, int height, const char *title);
-bool window_should_close(GLFWwindow *window);
+void error_callback(int, const char *);
+void key_callback(GLFWwindow *, int, int, int, int);
+GLFWwindow * init_window(int, int, const char *);
+bool window_should_close(GLFWwindow *);
 void pollevents();
-void render(GLFWwindow *window, const ImVec4 &color);
-void terminate_window(GLFWwindow *window);
+void render(GLFWwindow *, const ImVec4 &);
+void terminate_window(GLFWwindow *);

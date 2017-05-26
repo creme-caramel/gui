@@ -1,6 +1,6 @@
 CXX = g++
 FLAGS = -std=c++11
-CFLAGS = -g -Wall -fPIC
+CFLAGS = -g -Wall
 LDFLAGS = -lGL -lglfw
 
 FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
@@ -12,19 +12,10 @@ RPATH = -Wl,-rpath=$(GUI) -L$(GUI)
 LIBS = -lwindow
 BIN = pipe
 
-OBJ = pipe.o \
-      $(GUI)/window.o \
-      $(GUI)/imgui_impl_glfw.o \
-      $(GUI)/imgui_draw.o \
-      $(GUI)/imgui.o
+all: $(BIN)
 
-all: window $(BIN)
-
-window: $(GUI)/window.o $(GUI)/imgui_impl_glfw.o $(GUI)/imgui_draw.o $(GUI)/imgui.o
-	$(CXX) -shared -o $(GUI)/libwindow.so $(GUI)/window.o $(GUI)/imgui_impl_glfw.o $(GUI)/imgui_draw.o $(GUI)/imgui.o
-	
-$(BIN): $(OBJ)
-	$(CXX) $(OBJ) -o $(BIN) $(LDFLAGS)
+$(BIN): pipe.o
+	$(CXX) pipe.o -o $(BIN) $(RPATH) $(LIBS) $(LDFLAGS)
 
 .cpp.o:
 	$(CXX) $(FLAGS) $(CFLAGS) $(INC) -c -o $@ $<
@@ -33,6 +24,6 @@ test: $(BIN)
 	@./$(BIN)
 
 clean:
-	rm $(OBJ) $(BIN)
+	rm $(BIN) pipe.o
 
 .PHONY: all test clean
