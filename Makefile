@@ -5,12 +5,13 @@ LIBS = -lGL -lglfw
 
 FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
 CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
-GUI = $(CURDIR)/imgui
+GUI = $(CURDIR)/gui
 INC = -I$(GUI)
 
-BIN = pipeline
+BIN = pipe
 
-OBJ = pipeline.o \
+OBJ = pipe.o \
+      $(GUI)/window.o \
       $(GUI)/imgui_impl_glfw.o \
       $(GUI)/imgui_draw.o \
       $(GUI)/imgui.o

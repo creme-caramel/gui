@@ -1,3 +1,4 @@
-pipeline
+pipe
 *.o
 */*.o
+*.ini
